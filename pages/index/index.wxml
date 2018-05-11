@@ -2,6 +2,11 @@
     <view class="title">{{now.temp}}°</view>
     <view class='weather'>{{ now.weatherText }}</view>
     <image class='weather-bg' src='/images/{{now.weather}}-bg.png' mode='scaleToFill'></image>
+    <view class='day-weather' bindtap='onTapDayWeather'>
+      <view class='day-text'>{{ today.todayDate}}</view>
+      <view class='temp-text'>{{ today.todayTemp}}</view>
+      <image class='arrow-icon' src='/images/arrow.png'></image>
+    </view>
 </view>
 <view class='time-tip'>
     <image class='time-icon' src='/images/time-icon.png' mode='scaleToFill'></image>
