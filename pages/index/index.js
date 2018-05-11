@@ -17,7 +17,7 @@ const weatherColorMap = {
   'heavyrain': '#c5ccd0',
   'snow': '#aae1fc'
 };
-
+const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 Page({
   data:{
     now:{
@@ -83,7 +83,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: "广州"
+        city: "北京"
       },
       success: (res) => {
         if (res && res.data && res.data.code == 200) {
@@ -97,7 +97,7 @@ Page({
           this.setToday(today);
         }
       },
-      fail: (err) => {
+      fail: (err) =>  {
         console.error(err);
       },
       complete: ()=>{
@@ -105,8 +105,32 @@ Page({
       }
     })
   },
+
+  onTapLocation(){
+    wx.getLocation({
+      success: function(res) {
+        if(this.qqmapswx){
+          this.qqmapswx.reverseGeocoder({
+            location: {
+              latitude: res.latitude,
+              longitude: res.longitude
+            },
+            success: res => {
+              let city = res.result.address_component.city;
+              console.log(city);
+            }
+          });
+        }else{
+          console.log('null');
+        }
+      },
+    })
+  },
   onLoad(){
     console.log("Hello world");
+    this.qqmapswx = new QQMapWX({
+      key:"ZZYBZ-7KDWQ-DI25X-GIQJO-G3ZP7-LYBZM"
+    });
     this.loadData();
   }
 });

@@ -13,8 +13,8 @@
 }
 .weather-wrap{
   position: relative;
-  padding-top: 174rpx;
   padding-bottom: 250rpx;
+  padding-top: 20 rpx;
 }
 
 .weather-bg{
@@ -83,22 +83,42 @@
   height: 90rpx;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 30rpx;
-  line-height: 42;
-  opacity: 0.5;
-
+  line-height: 42rpx;
+  color: rgba(0, 0, 0, 0.5)
 }
 
-.day-text{
-
-} 
-
-.temp-text{
+.temp-text {
   flex-grow: 1;
   padding-right: 30rpx;
   text-align: right;
-} 
+}
 
-.arrow-icon{
- width: 13rpx;
- height: 24rpx;
+.arrow-icon {
+  width: 13rpx;
+  height: 24rpx;
+}
+
+.location{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.location-icon{
+  margin-right: 10rpx;
+  width: 21rpx;
+  height: 30rpx;
+}
+.location-text{
+   opacity: 0.5;
+}
+.location-tips{
+    margin-top: 10 rpx;
+   text-align: center;
+   opacity: 0.5;
+}
+.location-wrapper{
+    margin-bottom: 60 rpx;
+    font-size: 30rpx;
+    line-height: 42rpx;
 }
