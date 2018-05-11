@@ -115,6 +115,7 @@
 .location-tips{
     margin-top: 10 rpx;
    text-align: center;
+   height: 42rpx;
    opacity: 0.5;
 }
 .location-wrapper{

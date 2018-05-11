@@ -17,7 +17,15 @@ const weatherColorMap = {
   'heavyrain': '#c5ccd0',
   'snow': '#aae1fc'
 };
-const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+
+const UNPROMTED = 0;
+const UNAUTHORIZED = -1;
+const AUTHORIZE = 1;
+const UNPROMTED_TIP = "点击获取当前位置";
+const UNAUTHORIZED_TIP = "点击开启位置权限";
+const AUTHORIZED_TIP = "";
+var QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+var qqmapsdk;
 Page({
   data:{
     now:{
@@ -29,7 +37,10 @@ Page({
     today:{
       todayDate: "",
       todayTemp: "",
-    }
+    },
+    city:"北京",
+    locationTip:UNPROMTED_TIP,
+    locationAuthorType:UNPROMTED,
   },
   onPullDownRefresh(){
     this.loadData(()=>{
@@ -73,9 +84,12 @@ Page({
         this.setData({ today: today});
     }
   },
-  onTapDayWeather:(e)=>{
+  setCity(city){
+    this.setData({ city: city, locationTip: AUTHORIZED_TIP, locationAuthorType:AUTHORIZE});
+  },
+  onTapDayWeather(e){
     wx.navigateTo({
-      url: '/pages/list/list',
+      url: '/pages/list/list?city='+this.data.city,
     });
   },
 
@@ -83,7 +97,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: "北京"
+        city: this.data.city
       },
       success: (res) => {
         if (res && res.data && res.data.code == 200) {
@@ -105,32 +119,58 @@ Page({
       }
     })
   },
-
   onTapLocation(){
+    if(this.data.locationAuthorType === UNAUTHORIZED){
+      wx.openSetting({
+        success:(res)=>{
+          if(res.authSetting['scope.userLocation']){
+            this.getCityAndLoadData();
+          }
+        }
+      });
+    }else{
+        this.getCityAndLoadData();
+    }
+  },
+
+  getCityAndLoadData(){
     wx.getLocation({
-      success: function(res) {
-        if(this.qqmapswx){
-          this.qqmapswx.reverseGeocoder({
+      success: (res) => {
+        if (qqmapsdk) {
+          qqmapsdk.reverseGeocoder({
             location: {
               latitude: res.latitude,
               longitude: res.longitude
             },
-            success: res => {
+            success: (res) => {
               let city = res.result.address_component.city;
               console.log(city);
+              this.setCity(city);
+              this.setData({ locationAuthorType: AUTHORIZE, locationTip: AUTHORIZED_TIP })
+              this.loadData();
             }
           });
-        }else{
-          console.log('null');
         }
       },
+      fail: (err) => {
+        console.error(err);
+        this.setData({ locationAuthorType: UNAUTHORIZED, locationTip: UNAUTHORIZED_TIP });
+      }
     })
   },
   onLoad(){
     console.log("Hello world");
-    this.qqmapswx = new QQMapWX({
+    qqmapsdk = new QQMapWX({
       key:"ZZYBZ-7KDWQ-DI25X-GIQJO-G3ZP7-LYBZM"
     });
-    this.loadData();
+    wx.getSetting({
+      success:(res)=>{
+        if (res.authSetting['scope.userLocation']){
+          this.getCityAndLoadData();
+        }else{
+          this.loadData();
+        }
+      }
+    });
   }
 });

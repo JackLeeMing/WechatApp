@@ -4,21 +4,29 @@ const dayMap = [
 ];
 Page({
   data:{
-    items:[]
+    items:[],
+    city:"北京"
   },
   onPullDownRefresh() {
     this.loadData(() => {
       wx.stopPullDownRefresh();
     });
   },
-  onLoad(){
+  onLoad(options){
+    console.log(options);
+    if(options){
+      this.setData({city: options.city});
+    }
     this.loadData();
+    wx.setNavigationBarTitle({
+      title: '天气预测',
+    })
   },
   loadData(callback){
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/future',
       data:{
-        city:"北京",
+        city:this.data.city,
         time:new Date().getTime()
       },
       success:(res)=>{
