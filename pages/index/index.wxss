@@ -25,3 +25,50 @@
   height: 100%;
   z-index: -1;
 }
+.time-tip{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 28rpx;
+  margin-bottom: 30rpx;
+}
+.time-icon{
+  margin-right: 10rpx;
+   width: 36rpx;
+   height: 28rpx;
+}
+
+.time-text{
+  font-size: 30rpx;
+  line-height: 42rpx;
+  opacity: 0.5;
+}
+
+.forecast-list{
+  display: flex;
+}
+
+.forecast-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 120rpx;
+}
+
+.forecast-time{
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.forecast-img{
+ margin-top: 50rpx;
+ width: 60rpx;
+ height: 60rpx;
+}
+
+.forecast-temp{
+  margin-top: 46rpx;
+  font-size: 40rpx;
+  line-height: 56rpx;
+}

@@ -1,5 +1,20 @@
 <view class='weather-wrap'>
-    <view class="title">{{wendu}}°</view>
-    <view class='weather'>{{ tianqi }}</view>
-    <image class='weather-bg' src='/images/{{wbg}}-bg.png' mode='scaleToFill'></image>
+    <view class="title">{{now.temp}}°</view>
+    <view class='weather'>{{ now.weatherText }}</view>
+    <image class='weather-bg' src='/images/{{now.weather}}-bg.png' mode='scaleToFill'></image>
 </view>
+<view class='time-tip'>
+    <image class='time-icon' src='/images/time-icon.png' mode='scaleToFill'></image>
+    <view class='time-text'>未来24小时天气预报</view>
+</view>
+<scroll-view scroll-x>
+  <view class='forecast-list'>
+      <view class='forecast-item'  wx:key wx:for="{{forecast}}">
+        <view class='forecast-time'>{{item.time}}</view>
+        <image class='forecast-img' src='/images/{{item.weather}}-icon.png'></image>
+        <view class='forecast-temp'>{{item.temp}}°</view>
+      </view>
+  </view>
+</scroll-view>
+
+ 
