@@ -1,5 +1,5 @@
 <view class='weather-wrap'>
-    <view class="title">12°</view>
-    <view class='weather'>晴天</view>
-    <image class='weather-bg' src='/images/sunny-bg.png' mode='scaleToFill'></image>
+    <view class="title">{{wendu}}°</view>
+    <view class='weather'>{{ tianqi }}</view>
+    <image class='weather-bg' src='/images/{{wbg}}-bg.png' mode='scaleToFill'></image>
 </view>
